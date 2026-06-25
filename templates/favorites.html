@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='favorites.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="main-card shadow-sm">
+    <div class="favorites-header">
+        <h1 class="favorites-title">
+            <div class="favorites-icon-bg">
+                <i class="bi bi-star-fill"></i>
+            </div>
+            Favorite Contacts
+        </h1>
+    </div>
+
+    {% if contacts %}
+        <div class="row g-4">
+            {% for c in contacts %}
+            <div class="col-lg-4 col-md-6">
+                <div class="favorite-card">
+                    <div class="fc-header">
+                        <div class="fc-avatar">
+                            {% set names = c.name.split() %}
+                            {% if names|length > 1 %}
+                                {{ names[0][0]|upper }}{{ names[1][0]|upper }}
+                            {% else %}
+                                {{ names[0][0]|upper }}
+                            {% endif %}
+                        </div>
+                        <div class="fc-info">
+                            <h5>{{ c.name }}</h5>
+                            <span>Contact #{{ c.id }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="fc-body">
+                        <div class="fc-detail">
+                            <i class="bi bi-telephone-fill"></i>
+                            {{ c.phone }}
+                        </div>
+                        <div class="fc-detail">
+                            <i class="bi bi-envelope-fill"></i>
+                            {{ c.email }}
+                        </div>
+                    </div>
+                    
+                    <div class="fc-footer">
+                        <a href="{{ url_for('contact_detail', id=c.id) }}" class="fc-btn fc-btn-view">
+                            View Profile
+                        </a>
+                        <a href="{{ url_for('toggle_favorite', id=c.id) }}" class="fc-btn fc-btn-remove" title="Remove from favorites">
+                            <i class="bi bi-star-fill"></i> Remove
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-favorites">
+            <i class="bi bi-star empty-icon"></i>
+            <h4>No Favorite Contacts</h4>
+            <p>Mark contacts as favorite to see them appear here.</p>
+            <a href="/" class="btn btn-outline-primary mt-3">Browse Contacts</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

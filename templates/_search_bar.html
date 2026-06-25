@@ -1,0 +1,30 @@
+<!-- _search_bar.html -->
+<div class="search-bar-container">
+    <form method="GET" class="search-form">
+        <div class="search-input-wrapper">
+            <i class="bi bi-search search-icon"></i>
+            <input
+                type="text"
+                name="search"
+                class="search-input"
+                placeholder="Search by name, phone or email..."
+                value="{{ search if search else '' }}">
+        </div>
+
+        <div class="search-dropdown-wrapper">
+            <select class="search-dropdown">
+                <option value="all">All Contacts</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary search-btn">
+            <i class="bi bi-search"></i>
+            Search
+        </button>
+        
+        <a href="/" class="btn btn-outline reset-btn">
+            <i class="bi bi-arrow-counterclockwise"></i>
+            Reset
+        </a>
+    </form>
+</div>

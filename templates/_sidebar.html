@@ -1,0 +1,76 @@
+<!-- _sidebar.html -->
+<!-- Quick Stats / Total Contacts -->
+<div class="sidebar-card total-contacts-card">
+    <div class="total-contacts-content">
+        <div class="icon-circle">
+            <i class="bi bi-people-fill"></i>
+        </div>
+        <div class="stats-info">
+            <h2>{{ total_contacts }}</h2>
+            <span>Total Contacts</span>
+        </div>
+    </div>
+    <div class="stats-footer">  
+        All saved contacts
+    </div>
+</div>
+
+<div class="sidebar-card favorite-card">
+
+    <div class="total-contacts-content">
+
+        <div class="icon-circle favorite-icon">
+            ⭐
+        </div>
+
+        <div class="stats-info">
+            <h2>{{ favorite_count }}</h2>
+            <span>Favorites</span>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Quick Actions -->
+<div class="sidebar-card quick-actions-card">
+    <h5 class="card-title">
+        <i class="bi bi-lightning"></i>
+        Quick Actions
+    </h5>
+    <ul class="action-list">
+        <li>
+            <a href="/add">
+                <i class="bi bi-plus-lg"></i>
+                Add New Contact
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('favorite_contacts') }}">
+                <i class="bi bi-star"></i>
+                View Favorites
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <i class="bi bi-download"></i>
+                Export Contacts
+            </a>
+        </li>
+    </ul>
+</div>
+
+<!-- Tips -->
+<div class="sidebar-card tips-card">
+    <h5 class="card-title">
+        <i class="bi bi-lightbulb"></i>
+        Tips
+    </h5>
+    <p class="tip-text">
+        Search by name, phone number or email to quickly find your contacts.
+    </p>
+    <div class="tip-illustration">
+        <!-- SVG illustration representation or icon -->
+        <i class="bi bi-search" style="font-size: 3rem; color: #a5b4fc; opacity: 0.5;"></i>
+    </div>
+</div>

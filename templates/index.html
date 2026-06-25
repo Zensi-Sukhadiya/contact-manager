@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="row g-4 layout-row">
+
+    <!-- Main Content Area -->
+    <div class="col-xl-9 col-lg-8 main-column">
+        <div class="main-card shadow-sm">
+            
+            <!-- Header Section -->
+            <div class="main-card-header">
+                <div class="header-text">
+                    <h1 class="page-title">
+                        <div class="title-icon-bg">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                        All Contacts
+                    </h1>
+                    <p class="page-subtitle">Manage and organize your contacts</p>
+                </div>
+                <div class="header-illustration">
+                    <!-- SVG Notebook Illustration -->
+                    <svg width="180" height="120" viewBox="0 0 180 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- decorative leaves/circles -->
+                        <circle cx="150" cy="20" r="5" fill="#93c5fd" />
+                        <circle cx="30" cy="100" r="4" fill="#bfdbfe" />
+                        <path d="M140 100 Q150 90 160 100 Q150 110 140 100 Z" fill="#dbeafe"/>
+                        <path d="M20 30 Q35 20 40 40 Q25 50 20 30 Z" fill="#dbeafe"/>
+                        
+                        <!-- Book -->
+                        <g transform="rotate(5 90 60)">
+                            <!-- Book shadow/pages -->
+                            <rect x="58" y="22" width="70" height="90" rx="4" fill="#e2e8f0"/>
+                            <!-- Book cover -->
+                            <rect x="50" y="20" width="70" height="90" rx="6" fill="#3b82f6"/>
+                            <!-- Spine accent -->
+                            <rect x="58" y="20" width="4" height="90" fill="#2563eb"/>
+                            
+                            <!-- Profile Icon on book -->
+                            <circle cx="85" cy="50" r="12" fill="#ffffff"/>
+                            <path d="M65 85 Q85 60 105 85 V90 H65 Z" fill="#ffffff"/>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            {% include '_search_bar.html' %}
+
+            <!-- Table -->
+            <div class="table-responsive">
+                <table class="table custom-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                            <th>Phone <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                            <th>Email <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if contact %}
+                            {% for c in contact %}
+                            <tr>
+                                <td>{{ c.id }}</td>
+                                <td>
+                                    <div class="contact-name-wrapper">
+                                        <div class="avatar avatar-{{ loop.cycle('purple', 'orange', 'green', 'red', 'blue') }}">
+                                            {% set names = c.name.split() %}
+                                            {% if names|length > 1 %}
+                                                {{ names[0][0]|upper }}{{ names[1][0]|upper }}
+                                            {% else %}
+                                                {{ names[0][0]|upper }}
+                                            {% endif %}
+                                        </div>
+                                        <a href="{{ url_for('contact_detail', id=c.id) }}" class="contact-name">
+                                            {{ c.name }}
+                                        </a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="phone-text">
+                                        <i class="bi bi-telephone text-success me-2"></i>{{ c.phone }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="email-text">
+                                        <i class="bi bi-envelope text-primary me-2"></i>{{ c.email }}
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <div class="action-buttons">
+
+                                        <a href="{{ url_for('toggle_favorite', id=c.id) }}" class="btn btn-outline-warning btn-sm action-btn" style="color: #d97706; border-color: #fde68a;">
+
+                                            {% if c.favorite %}
+                                                <i class="bi bi-star-fill"></i>
+                                            {% else %}
+                                                <i class="bi bi-star"></i>
+                                            {% endif %}
+
+                                        </a>
+
+                                        <a href="{{ url_for('edit_contact', id=c.id) }}" class="btn btn-outline-primary btn-sm action-btn">
+                                            <i class="bi bi-pencil-square"></i> Edit
+                                        </a>
+
+                                        <a href="{{ url_for('delete_contact', id=c.id) }}" class="btn btn-outline-danger btn-sm action-btn" onclick="return confirm('Delete this contact?')">
+                                            <i class="bi bi-trash"></i> Delete
+                                        </a>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center py-5 empty-state">
+                                    <i class="bi bi-inbox empty-icon"></i>
+                                    <p>No contacts found.</p>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination-container">
+                <div class="pagination-info">
+                    {% if pagination.total > 0 %}
+                        {% set start_idx = (pagination.page - 1) * pagination.per_page + 1 %}
+                        {% set end_idx = start_idx + contact|length - 1 %}
+                        Showing {{ start_idx }} to {{ end_idx }} of {{ pagination.total }} contacts
+                    {% else %}
+                        Showing 0 to 0 of 0 contacts
+                    {% endif %}
+                </div>
+                <div class="pagination-controls">
+                    {% if pagination.has_prev %}
+                        <a href="{{ url_for('home', page=pagination.prev_num, search=search or '') }}" class="page-btn"><i class="bi bi-chevron-left"></i></a>
+                    {% else %}
+                        <button class="page-btn disabled"><i class="bi bi-chevron-left"></i></button>
+                    {% endif %}
+
+                    {% for page_num in pagination.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                        {% if page_num %}
+                            {% if pagination.page == page_num %}
+                                <button class="page-btn active">{{ page_num }}</button>
+                            {% else %}
+                                <a href="{{ url_for('home', page=page_num, search=search or '') }}" class="page-btn">{{ page_num }}</a>
+                            {% endif %}
+                        {% else %}
+                            <span class="page-btn disabled">...</span>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if pagination.has_next %}
+                        <a href="{{ url_for('home', page=pagination.next_num, search=search or '') }}" class="page-btn"><i class="bi bi-chevron-right"></i></a>
+                    {% else %}
+                        <button class="page-btn disabled"><i class="bi bi-chevron-right"></i></button>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Sidebar Area -->
+    <div class="col-xl-3 col-lg-4 sidebar-column">
+        {% include '_sidebar.html' %}
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,81 @@
+/* Contact Details Page */
+
+.profile-card {
+
+    background: white;
+
+    border-radius: 20px;
+
+    padding: 35px;
+
+    box-shadow: 0 10px 25px rgba(
+        0,
+        0,
+        0,
+        0.05
+    );
+}
+
+.profile-header {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+}
+
+.profile-avatar {
+
+    width: 90px;
+
+    height: 90px;
+
+    border-radius: 50%;
+
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #4f46e5
+    );
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 30px;
+
+    font-weight: bold;
+}
+
+.profile-info {
+
+    margin-top: 20px;
+}
+
+.info-item {
+
+    padding: 15px 0;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+/* Contact Link */
+
+.contact-link {
+
+    text-decoration: none;
+
+    color: #0f172a;
+
+    font-weight: 600;
+}
+
+.contact-link:hover {
+
+    color: #2563eb;
+}

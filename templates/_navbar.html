@@ -1,0 +1,41 @@
+<!-- _navbar.html -->
+<nav class="top-navbar">
+    <div class="navbar-container">
+        
+        <div class="navbar-left">
+            <a class="navbar-brand" href="/">
+                <div class="brand-icon-bg">
+                    <i class="bi bi-person-fill"></i>
+                </div>
+                <span>Contact Manager</span>
+            </a>
+        </div>
+
+        <div class="navbar-center">
+            <a class="nav-item {% if request.endpoint == 'home' %}active{% endif %}" href="{{ url_for('home') }}">
+                <i class="bi bi-people-fill"></i>
+                All Contacts
+            </a>
+            <a class="nav-item {% if request.endpoint == 'favorite_contacts' %}active{% endif %}" href="{{ url_for('favorite_contacts') }}">
+                <i class="bi bi-star"></i>
+                Favorites
+            </a>
+        </div>
+
+        <div class="navbar-right">
+            <button
+                id="theme-toggle"
+                class="icon-btn"
+                title="Toggle Theme">
+
+                <i id="theme-icon" class="bi bi-sun"></i>
+
+            </button>
+            <a href="/add" class="btn btn-primary add-contact-btn">
+                <i class="bi bi-plus-lg"></i>
+                Add Contact
+            </a>
+        </div>
+
+    </div>
+</nav>
